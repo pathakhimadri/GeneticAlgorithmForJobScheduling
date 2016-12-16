@@ -4,7 +4,7 @@ public class Individual implements Serializable
 {
   private Chromosome chromosome;
   private int        allele_length;
-  private double     fitness;
+  private double     fitness; //
 
   public Individual(int L)
   {
