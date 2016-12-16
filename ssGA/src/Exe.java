@@ -37,7 +37,7 @@ public class Exe
     
     Problem   problem;                             // The problem being solved
 
-    // problem = new ProblemPPeaks(); 
+   //  problem = new ProblemPPeaks(); 
     //problem = new ProblemOneMax();
     problem = new ProblemMMS();
     String filename;
@@ -77,6 +77,8 @@ public class Exe
     for(int i=0;i<gn*gl;i++)
     System.out.print( (ga.get_solution()).get_allele(i) + "  " ); System.out.println();
     System.out.println("Best Fitness "+(ga.get_solution()).get_fitness());
+    System.out.println("blabla");
+    
    String minMakeSpan = new BigDecimal(Double.valueOf(1000000000/ga.get_solution().get_fitness())).toString();
     System.out.println("Minimum MakeSpan " + minMakeSpan);
     
