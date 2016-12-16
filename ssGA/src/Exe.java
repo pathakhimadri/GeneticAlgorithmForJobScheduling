@@ -41,8 +41,8 @@ public class Exe
     //problem = new ProblemOneMax();
     problem = new ProblemMMS();
     String filename;
-    filename = "u_c_hihi_512_16";
-    //filename = "u_c_hilo_512_16";
+   // filename = "u_c_hihi_512_16";
+    filename = "u_c_hilo_512_16";
     //filename = "u_c_lohi_512_16";
     problem.create2DIntMatrixFromFile(filename);
 	
@@ -77,9 +77,8 @@ public class Exe
     for(int i=0;i<gn*gl;i++)
     System.out.print( (ga.get_solution()).get_allele(i) + "  " ); System.out.println();
     System.out.println("Best Fitness "+(ga.get_solution()).get_fitness());
-    System.out.println("blabla");
-    
-   String minMakeSpan = new BigDecimal(Double.valueOf(1000000000/ga.get_solution().get_fitness())).toString();
+   // System.out.println("blabla");    
+    String minMakeSpan = new BigDecimal(Double.valueOf(1000000000/ga.get_solution().get_fitness())).toString();
     System.out.println("Minimum MakeSpan " + minMakeSpan);
     
   }
