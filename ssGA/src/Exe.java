@@ -10,6 +10,9 @@ import java.net.URL;
 /** Assistant Cesar Diaz                      **/
 /***********************************************/
 //
+
+//population - left top 10. Create rest 10
+//rank selection
 public class Exe
 {
   public static void main(String args[]) throws Exception
@@ -33,16 +36,16 @@ public class Exe
     double pm 		  = 0.01;
     //double pm  	= 1.0/(double)((double)gn*(double)gl); // Mutation probability
     double tf         = (double)gn*gl ;               // Target fitness being sought
-    long   MAX_ISTEPS = 100;
+    long   MAX_ISTEPS = 10;
     
     Problem   problem;                             // The problem being solved
 
    //  problem = new ProblemPPeaks(); 
-    //problem = new ProblemOneMax();
+   // problem = new ProblemOneMax();
     problem = new ProblemMMS();
     String filename;
-   // filename = "u_c_hihi_512_16";
-    filename = "u_c_hilo_512_16";
+    filename = "u_c_hihi_512_16";
+ //   filename = "u_c_hilo_512_16";
     //filename = "u_c_lohi_512_16";
     problem.create2DIntMatrixFromFile(filename);
 	
@@ -77,7 +80,7 @@ public class Exe
     for(int i=0;i<gn*gl;i++)
     System.out.print( (ga.get_solution()).get_allele(i) + "  " ); System.out.println();
     System.out.println("Best Fitness "+(ga.get_solution()).get_fitness());
-   // System.out.println("blabla");    
+  //  System.out.println("blabla");    
     String minMakeSpan = new BigDecimal(Double.valueOf(1000000000/ga.get_solution().get_fitness())).toString();
     System.out.println("Minimum MakeSpan " + minMakeSpan);
     

@@ -57,9 +57,9 @@ public class Algorithm
 	      if(p2>popsize-1){ 
 	    	  p2=popsize-1;
 	      }
+
     }
     while (p1==p2);
-    
     if (pop.get_ith(p1).get_fitness()>pop.get_ith(p2).get_fitness())
     return pop.get_ith(p1);
     else
@@ -72,12 +72,20 @@ public class Algorithm
   {
     int       rand;
 
+ //   System.out.print("Individual 1 in Crossover: ");
+ //  p1.print();
+    
     rand = (int)(r.nextDouble()*(double)chrom_length-1+0.5); // From 0 to L-1 rounded
     if(rand>chrom_length-1) rand=chrom_length-1;
 
-    if(r.nextDouble()>pc)  // If no crossover then randomly returns one parent
-    return r.nextDouble()>0.5?p1:p2;
-
+    if(r.nextDouble()>pc) // If no crossover then randomly returns one parent
+    	return r.nextDouble()>0.5?p1:p2;
+/*
+    System.out.print("Old individual 1:" );
+    p1.print();
+    System.out.print("Old individual 2:" );
+    p2.print();
+  */ 
     // Copy CHROMOSOME 1
     for (int i=0; i<rand; i++)
     {
@@ -88,9 +96,58 @@ public class Algorithm
     {
       aux_indiv.set_allele(i,p2.get_allele(i));
     }
-
+ // System.out.print("New chromosom: " );
+ //   aux_indiv.print();
     return aux_indiv;
   }
+  
+//Double POINT CROSSOVER - ONLY ONE CHILD IS CREATED (RANDOMLY DISCARD 
+ // DE OTHER)
+ public Individual DPX (Individual p1, Individual p2)
+ {
+   int  rand1, rand2;
+	   
+//   System.out.print("Individual 1 in Crossover: ");
+//  p1.print();
+   
+   rand1 = (int)(r.nextDouble()*(double)chrom_length-1+0.5); // From 0 to L-1 rounded
+   rand2 = (int)(r.nextDouble()*(double)chrom_length-1+0.5); // From 0 to L-1 rounded
+
+   if (rand1>rand2){ //rand1 always <rand2
+	   int temp=rand1;
+	   rand1=rand2;
+	   rand2=temp;
+   }
+   
+   if(rand2>chrom_length-1) rand2=chrom_length-1;
+
+   if(r.nextDouble()>pc) // If no crossover then randomly returns one parent
+   	return r.nextDouble()>0.5?p1:p2;
+/*
+   System.out.print("Old individual 1:" );
+   p1.print();
+   System.out.print("Old individual 2:" );
+   p2.print();
+  
+*/   // Copy CHROMOSOME 1
+   for (int i=0; i<rand1; i++)
+   {
+     aux_indiv.set_allele(i,p1.get_allele(i));
+   }
+   // Copy CHROMOSOME 2
+   for (int i=rand1; i<rand2; i++)
+   {
+     aux_indiv.set_allele(i,p2.get_allele(i));
+   }
+   for (int i=rand2; i<chrom_length; i++)
+   {
+     aux_indiv.set_allele(i,p1.get_allele(i));
+   }
+/* System.out.print("New chromosom: " );
+   aux_indiv.print();
+*/   return aux_indiv;
+ }
+  
 
 
   // MUTATE A INTEGER CHROMOSOME
@@ -100,12 +157,16 @@ public class Algorithm
 
     aux_indiv.assign(p1);
 
-    for(int i=0; i<chrom_length; i++)
+    for(int i=0; i<chrom_length; i++){
     if (r.nextDouble()<=pm)  // Check mutation bit by bit...
     {
       aux_indiv.set_allele(i,r.nextInt(16));
-    }
 
+  //    System.out.print("MUTATION ");
+  //    aux_indiv.print();
+  
+    }
+    }
     return aux_indiv;
 
   }
@@ -126,7 +187,9 @@ public class Algorithm
   //Carries out selection, CrossO, Mutation + acception
   public void go_one_step() throws Exception
   {
-    aux_indiv.assign( SPX(select_tournament(),select_tournament()) );
+	pop.sort_pop(0, popsize-1);//sort of population
+	aux_indiv.assign( 
+			DPX(select_tournament(),select_tournament()) );//Single point crossover
     aux_indiv.set_fitness(problem.evaluateStep(mutate(aux_indiv)));
     replace(aux_indiv);
   }

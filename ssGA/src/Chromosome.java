@@ -34,7 +34,7 @@ public class Chromosome implements Serializable
   public void print()
   {
     for(int i=0; i<allele_Length; i++)
-     System.out.print(alleles[i]);
+     System.out.print(alleles[i]+" ");
   }
 
 }

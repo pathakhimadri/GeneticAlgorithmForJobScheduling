@@ -11,7 +11,7 @@ public class Population
 {
   // PRIVATE MEMORY
   private int       popsize;  // The number of individuals
-  private Individual pop[];   // The vector of individuals
+  public Individual pop[];   // The vector of individuals
 
   private int chrom_length;   // The length of the chromosomes
 
@@ -36,7 +36,37 @@ public class Population
     bestp = 0;     worstp = 0;
     bestf = 0.0;   avgf   = 0.0;   worstf = 9999999999.0;    BESTF = 0.0;
   }
-
+  
+  
+  //sort by QuickSort
+  public void sort_pop(int start, int end) {
+      if (start >= end)
+          return;
+      int i = start, j = end;
+      int cur = i - (i - j) / 2;
+      while (i < j) {
+          while (i < cur && (pop[i].get_fitness() >= pop[cur].get_fitness())) {
+              i++;
+          }
+          while (j > cur && (pop[cur].get_fitness() >= pop[j].get_fitness())) {
+              j--;
+          }
+          if (i < j) {
+              Individual temp = pop[i];
+              pop[i] = pop[j];
+              pop[j] = temp;
+              if (i == cur)
+                  cur = j;
+              else if (j == cur)
+                  cur = i;
+          }
+      }
+      sort_pop(start, cur);
+      sort_pop(cur+1, end);
+  }
+  
+  //---!sort by QuickSort
+  
   public int get_popsize()
   {
     return popsize;
@@ -92,6 +122,7 @@ public class Population
     avgf = total/(double)popsize;
   }
 
+
 public int    get_worstp() { return worstp; }
 public int    get_bestp()  { return bestp;  }
 public double get_worstf() { return worstf; }
@@ -101,12 +132,13 @@ public double get_BESTF()  { return BESTF;  }
 
   public void print()
   {
+	  System.out.println("POPSIZE="+popsize);
     for(int i=0;i<popsize;i++)
     {  System.out.print(i);    System.out.print("   ");
       for(int j=0;j<chrom_length;j++)
-      System.out.print(pop[i].get_allele(j));
-      System.out.print("   ");
-      System.out.println(pop[i].get_fitness());
+   //   System.out.print(pop[i].get_allele(j));
+      System.out.print("");
+      System.out.println(pop[i].get_fitness()+" hbh");
     }
   }
 
