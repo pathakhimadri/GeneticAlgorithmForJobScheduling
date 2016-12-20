@@ -20,7 +20,7 @@ public class Algorithm
   private  Population    pop;         // The population
   private  static Random r;           // Source for random values in this class
   private  Individual aux_indiv;  // Internal auxiliar individual being computed
-
+  private  Individual aux_indiv_1; 
 
   // CONSTRUCTOR
   public Algorithm(Problem p, int popsize, int gn, int gl, double pc, double pm)
@@ -36,7 +36,7 @@ public class Algorithm
     this.pop = new Population(popsize,chrom_length);// Create initial population
     this.r             = new Random();
     this.aux_indiv     = new Individual(chrom_length);
-
+    this.aux_indiv_1   = new Individual(chrom_length);
     for(int i=0;i<popsize;i++){
 	    pop.set_fitness(i, problem.evaluateStep(pop.get_ith(i)));
     }
@@ -48,15 +48,15 @@ public class Algorithm
   {
     int p1, p2;
 
-    p1 = (int)(r.nextDouble()*(double)popsize + 0.5); // Round and then trunc to int
-    
-    if(p1>popsize-1){ p1=popsize-1;}
+    p1 = (int)(r.nextDouble()*(double)popsize/2 + 0.5); // Round and then trunc to int
+    												  // Tournament only for the best half
+    //if(p1>popsize-1){ p1=popsize-1;}
     
     do
-    {  p2 = (int)(r.nextDouble()*(double)popsize + 0.5);  // Round and then trunc to int
-	      if(p2>popsize-1){ 
-	    	  p2=popsize-1;
-	      }
+    {  p2 = (int)(r.nextDouble()*(double)popsize/2 + 0.5);  // Round and then trunc to int
+	  //    if(p2>popsize-1){ 
+	  //  	  p2=popsize-1;
+	  //   }
 
     }
     while (p1==p2);
@@ -66,49 +66,11 @@ public class Algorithm
     return pop.get_ith(p2);
   }
 
-  // SINGLE POINT CROSSOVER - ONLY ONE CHILD IS CREATED (RANDOMLY DISCARD 
-  // DE OTHER)
-  public Individual SPX (Individual p1, Individual p2)
-  {
-    int       rand;
-
- //   System.out.print("Individual 1 in Crossover: ");
- //  p1.print();
-    
-    rand = (int)(r.nextDouble()*(double)chrom_length-1+0.5); // From 0 to L-1 rounded
-    if(rand>chrom_length-1) rand=chrom_length-1;
-
-    if(r.nextDouble()>pc) // If no crossover then randomly returns one parent
-    	return r.nextDouble()>0.5?p1:p2;
-/*
-    System.out.print("Old individual 1:" );
-    p1.print();
-    System.out.print("Old individual 2:" );
-    p2.print();
-  */ 
-    // Copy CHROMOSOME 1
-    for (int i=0; i<rand; i++)
-    {
-      aux_indiv.set_allele(i,p1.get_allele(i));
-    }
-    // Copy CHROMOSOME 2
-    for (int i=rand; i<chrom_length; i++)
-    {
-      aux_indiv.set_allele(i,p2.get_allele(i));
-    }
- // System.out.print("New chromosom: " );
- //   aux_indiv.print();
-    return aux_indiv;
-  }
-  
 //Double POINT CROSSOVER - ONLY ONE CHILD IS CREATED (RANDOMLY DISCARD 
  // DE OTHER)
  public Individual DPX (Individual p1, Individual p2)
  {
    int  rand1, rand2;
-	   
-//   System.out.print("Individual 1 in Crossover: ");
-//  p1.print();
    
    rand1 = (int)(r.nextDouble()*(double)chrom_length-1+0.5); // From 0 to L-1 rounded
    rand2 = (int)(r.nextDouble()*(double)chrom_length-1+0.5); // From 0 to L-1 rounded
@@ -123,13 +85,7 @@ public class Algorithm
 
    if(r.nextDouble()>pc) // If no crossover then randomly returns one parent
    	return r.nextDouble()>0.5?p1:p2;
-/*
-   System.out.print("Old individual 1:" );
-   p1.print();
-   System.out.print("Old individual 2:" );
-   p2.print();
-  
-*/   // Copy CHROMOSOME 1
+   // Copy CHROMOSOME 1
    for (int i=0; i<rand1; i++)
    {
      aux_indiv.set_allele(i,p1.get_allele(i));
@@ -143,9 +99,7 @@ public class Algorithm
    {
      aux_indiv.set_allele(i,p1.get_allele(i));
    }
-/* System.out.print("New chromosom: " );
-   aux_indiv.print();
-*/   return aux_indiv;
+   return aux_indiv;
  }
   
 
@@ -161,10 +115,6 @@ public class Algorithm
     if (r.nextDouble()<=pm)  // Check mutation bit by bit...
     {
       aux_indiv.set_allele(i,r.nextInt(16));
-
-  //    System.out.print("MUTATION ");
-  //    aux_indiv.print();
-  
     }
     }
     return aux_indiv;
@@ -190,8 +140,12 @@ public class Algorithm
 	pop.sort_pop(0, popsize-1);//sort of population
 	aux_indiv.assign( 
 			DPX(select_tournament(),select_tournament()) );//Single point crossover
-    aux_indiv.set_fitness(problem.evaluateStep(mutate(aux_indiv)));
-    replace(aux_indiv);
+	mutate(aux_indiv);
+	aux_indiv.set_fitness(problem.evaluateStep(aux_indiv));
+  //  aux_indiv_1= pop.get_ith((int)(r.nextDouble()*(double)popsize/2 + 0.5));
+  //  mutate(aux_indiv_1);
+  //  replace(aux_indiv_1);
+    replace(aux_indiv);//replace by aux_indiv
   }
 
   public Individual get_solution() throws Exception

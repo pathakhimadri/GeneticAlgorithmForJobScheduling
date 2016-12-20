@@ -36,7 +36,7 @@ public class Exe
     double pm 		  = 0.01;
     //double pm  	= 1.0/(double)((double)gn*(double)gl); // Mutation probability
     double tf         = (double)gn*gl ;               // Target fitness being sought
-    long   MAX_ISTEPS = 10;
+    long   MAX_ISTEPS = 1000;
     
     Problem   problem;                             // The problem being solved
 
@@ -44,8 +44,8 @@ public class Exe
    // problem = new ProblemOneMax();
     problem = new ProblemMMS();
     String filename;
-    filename = "u_c_hihi_512_16";
- //   filename = "u_c_hilo_512_16";
+  //  filename = "u_c_hihi_512_16";
+    filename = "u_c_hilo_512_16";
     //filename = "u_c_lohi_512_16";
     problem.create2DIntMatrixFromFile(filename);
 	
