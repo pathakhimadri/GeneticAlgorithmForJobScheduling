@@ -24,6 +24,7 @@ public class ProblemMMS extends Problem{
 		//Calculate the highest MakeSpan among all machines
 		for(int i = 0; i< 16; i++){
 			if(makeSpan[i]> highest){
+				Indiv.set_makeSpanMachine(i);
 				highest = makeSpan[i];
 			}
 		}
