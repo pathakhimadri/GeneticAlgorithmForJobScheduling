@@ -122,7 +122,9 @@ public class Algorithm
     for(int i=0; i<chrom_length; i++){
     if (r.nextDouble()<=pm)  // Check mutation bit by bit...
     {
-      aux_indiv.set_allele(i,r.nextInt(16));
+    	if(aux_indiv.get_allele(i) == aux_indiv.get_makeSpanMachine()){
+    		aux_indiv.set_allele(i,r.nextInt(16));
+    	}
     }
     }
     return aux_indiv;
