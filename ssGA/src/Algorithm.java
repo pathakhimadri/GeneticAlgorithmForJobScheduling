@@ -48,6 +48,7 @@ public class Algorithm
   {
     int p1, p2;
 
+
     p1 = (int)(r.nextDouble()*(double)popsize/2 + 0.5); // Round and then trunc to int
     												  // Tournament only for the best half
     //if(p1>popsize-1){ p1=popsize-1;}
@@ -85,6 +86,13 @@ public class Algorithm
 
    if(r.nextDouble()>pc) // If no crossover then randomly returns one parent
    	return r.nextDouble()>0.5?p1:p2;
+   	
+   if(p1.get_fitness()<p2.get_fitness()){ //if p1<p2 => change them
+	   Individual temp=p1;
+	   p1=p2;
+	   p2=temp;
+   }
+	   
    // Copy CHROMOSOME 1
    for (int i=0; i<rand1; i++)
    {
