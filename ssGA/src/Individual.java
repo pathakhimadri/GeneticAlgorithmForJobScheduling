@@ -4,7 +4,8 @@ public class Individual implements Serializable
 {
   private Chromosome chromosome;
   private int        allele_length;
-  private double     fitness; //
+  private double     fitness; 
+  private int 		 makeSpanMachine;
 
   public Individual(int L)
   {
@@ -70,5 +71,12 @@ public class Individual implements Serializable
      return chromosome;
   }
 
+  public void set_makeSpanMachine(int i) {
+		makeSpanMachine = i;
+  }
+	
+  public int get_makeSpanMachine(){
+		  return makeSpanMachine;
+  }
 }
 // END OF CLASS: Individual
