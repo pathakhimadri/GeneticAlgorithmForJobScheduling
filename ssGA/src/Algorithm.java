@@ -81,7 +81,7 @@ public class Algorithm
 	   rand1=rand2;
 	   rand2=temp;
    }
-   */ 
+ */ 
   
    rand1 = chrom_length/3;
    rand2 = chrom_length*2/3;
