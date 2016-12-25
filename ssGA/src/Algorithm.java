@@ -73,7 +73,7 @@ public class Algorithm
  {
    int  rand1, rand2;
    
-   rand1 = (int)(r.nextDouble()*(double)chrom_length-1+0.5); // From 0 to L-1 rounded
+/*   rand1 = (int)(r.nextDouble()*(double)chrom_length-1+0.5); // From 0 to L-1 rounded
    rand2 = (int)(r.nextDouble()*(double)chrom_length-1+0.5); // From 0 to L-1 rounded
 
    if (rand1>rand2){ //rand1 always <rand2
@@ -81,7 +81,9 @@ public class Algorithm
 	   rand1=rand2;
 	   rand2=temp;
    }
-   
+   */
+   rand1 = chrom_length/3;
+   rand2 = chrom_length*2/3;
    if(rand2>chrom_length-1) rand2=chrom_length-1;
 
    if(r.nextDouble()>pc) // If no crossover then randomly returns one parent
@@ -122,7 +124,9 @@ public class Algorithm
     for(int i=0; i<chrom_length; i++){
     if (r.nextDouble()<=pm)  // Check mutation bit by bit...
     {
-      aux_indiv.set_allele(i,r.nextInt(16));
+    	if(aux_indiv.get_allele(i) == aux_indiv.get_makeSpanMachine()){
+    		aux_indiv.set_allele(i,r.nextInt(16));
+    	}
     }
     }
     return aux_indiv;
@@ -180,4 +184,3 @@ public double get_BESTF()  { return pop.get_BESTF();  }
   }
 }
 // END OF CLASS: Algorithm
-

@@ -1,7 +1,4 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.net.URL;
-import java.util.Scanner;
+
 
 public class ProblemMMS extends Problem{
 
@@ -24,6 +21,7 @@ public class ProblemMMS extends Problem{
 		//Calculate the highest MakeSpan among all machines
 		for(int i = 0; i< 16; i++){
 			if(makeSpan[i]> highest){
+				Indiv.set_makeSpanMachine(i);
 				highest = makeSpan[i];
 			}
 		}
